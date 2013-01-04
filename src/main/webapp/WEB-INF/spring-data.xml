@@ -16,5 +16,7 @@
 			http://www.springframework.org/schema/util
 			http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-             <bean id="list" class="java.util.ArrayList"/>
+             <bean id="set" class="java.util.HashSet"/>
+    <bean id="name" class="java.lang.String"/>
+
     </beans>
