@@ -1,18 +1,9 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<jsp:useBean id="set" type="java.util.Set" scope="request"/>
+<jsp:useBean id="list" type="java.util.List" scope="request"/>
 
 <html>
 <head>
     <title>Spring MVC Multiple File Upload</title>
-    <style>
-        body {
-            font-family: "Trebuchet MS";
-        }
-
-        h1 {
-            font-size: 1.5em;
-        }
-    </style>
 
 
 </head>
@@ -27,16 +18,17 @@
 
 </form>
 <table>
-    <% for (Object name : set) { %>
+    <% for (Object name : list) { %>
     <tr>
         <td><%= name %>
         </td>
-        <form method="post" action="play/<%= name %>">
+
+        <form method="post" action="play/<%= name %>" target="_blank">
 
             <td><input type="submit" value="Play"/></td>
         </form>
 
-        <form method="post" action="play/<%= name %>">
+        <form method="post" action="delete/<%= name %>">
 
             <td><input type="submit" value="Delete"/></td>
         </form>
