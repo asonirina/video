@@ -8,39 +8,32 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 
+import com.ason.configuration.AppConfig;
+
 
 public class VideoServlet extends HttpServlet {
 
     String name;
 
-    public VideoServlet(String name) {
-        this.name = name;
-    }
-
-    public VideoServlet() {
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         name = request.getParameter("name");
-        File file = new File("videos/"+name);
-        String postfix = name.substring(name.lastIndexOf('.')+1);
-        response.setContentType("video/"+postfix);
+        File file = new File(AppConfig.VIDEO_DIR + "/" + name);
+        String postfix = name.substring(name.lastIndexOf('.') + 1);
+        response.setContentType("video/" + postfix);
         response.setContentLength((int) file.getTotalSpace());
-        response.setHeader("Content-Range", String.valueOf((int) file.length() - 1));
         response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("Content-Length", String.valueOf(file.length()));
-        response.addHeader("Cache-Control", "no-transform, max-age=0");
         byte[] content = new byte[1024];
         FileInputStream is = new FileInputStream(file);
         OutputStream os = response.getOutputStream();
 
         while (is.read(content) != -1) {
             os.write(content);
+            os.flush();
         }
 
-        os.flush();
+        // os.flush();
         is.close();
         os.close();
 

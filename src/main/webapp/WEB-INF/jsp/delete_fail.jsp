@@ -10,5 +10,11 @@
 <body>
 <h1>Delete Fail!</h1>
 
+<form action="save">
+
+    <input type="submit" name="submit" value="Back">
+
+</form>
+
 </body>
 </html>

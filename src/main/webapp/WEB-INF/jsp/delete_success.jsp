@@ -8,6 +8,13 @@
 <body>
 <h1>Delete Success!</h1>
 
+<form action="/video/save">
+
+    <input type="submit" name="submit" value="Back">
+
+</form>
+
+
 
 </body>
 </html>
