@@ -10,7 +10,7 @@
 <body>
 <h1>Delete Fail!</h1>
 
-<form action="save">
+<form action="/video/save">
 
     <input type="submit" name="submit" value="Back">
 

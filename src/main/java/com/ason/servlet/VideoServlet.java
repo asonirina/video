@@ -17,7 +17,7 @@ public class VideoServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         name = request.getParameter("name");
-        File file = new File(AppConfig.VIDEO_DIR + "/" + name);
+        File file = new File(AppConfig.getInstance().getProps().getProperty("video_dir") + "/" + name);
         String postfix = name.substring(name.lastIndexOf('.') + 1);
         response.setContentType("video/" + postfix);
         response.setContentLength((int) file.getTotalSpace());
@@ -33,7 +33,6 @@ public class VideoServlet extends HttpServlet {
             os.flush();
         }
 
-        // os.flush();
         is.close();
         os.close();
 

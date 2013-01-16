@@ -19,4 +19,14 @@
     <bean id="list" class="java.util.ArrayList"/>
     <bean id="name" class="java.lang.String"/>
 
+    <bean id="pg" class="java.lang.Integer">
+        <constructor-arg value="1"/>
+            </bean>
+
+    <bean id="num" class="java.lang.Integer">
+        <constructor-arg value="0"/>
+    </bean>
+
+    <!--<bean class="com.ason.configuration.AppConfig" init-method="init"/>-->
+
     </beans>
