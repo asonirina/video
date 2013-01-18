@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.ason.configuration.AppConfig;
+import com.ason.converter.Xuggler;
+import com.ason.converter.Capt;
 
 
 @Controller
@@ -56,23 +58,6 @@ public class FileController {
         return "delete_fail";
     }
 
-//    @RequestMapping(value = "/save")
-//    public ModelAndView save(
-//            @ModelAttribute("uploadForm") FileUpload fileUpload, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//
-//        MultipartFile file = fileUpload.getFile();
-//        if (file != null) {
-//            file.transferTo(new File(videoDir + "/" + file.getOriginalFilename()));
-//            list.add(file.getOriginalFilename());
-//        }
-//
-//        request.setAttribute("num",list.size()/10);
-//        RequestDispatcher view = request.getRequestDispatcher("file_upload_form");
-//        view.forward(request, response);
-//
-//        return new ModelAndView("file_upload_form", "list", list);
-//    }
 
     @RequestMapping(value = "/save")
     public ModelAndView save(
@@ -82,6 +67,7 @@ public class FileController {
         int page;
         try {
             page = Integer.parseInt(request.getParameter("page"));
+            if (page == 0) page = 1;
         } catch (Exception ex) {
             page = 1;
         }
@@ -89,10 +75,22 @@ public class FileController {
 
         MultipartFile file = fileUpload.getFile();
         if (file != null) {
-            file.transferTo(new File(VIDEO_DIR + "/" + file.getOriginalFilename()));
-            FILE_LIST.add(file.getOriginalFilename());
+            System.out.println(file.getContentType());
+            File newFile = new File(VIDEO_DIR + "/" + file.getOriginalFilename());
+            file.transferTo(newFile);
+            String str = getName(newFile);
+            Xuggler.transcode(VIDEO_DIR, newFile.getName(), getName(newFile) + ".mp4",getPostfix(newFile));
+//            if (!getPostfix(newFile).equals("mp4")) {
+//
+//                newFile.delete();
+//            }
+
+            //  Capt.capture(VIDEO_DIR, str+".mp4");
+
+            FILE_LIST.add(str + ".mp4");
 
         }
+
         List<String> res = new ArrayList<String>();
         int lost = FILE_LIST.size() - (page - 1) * 10;
         for (int i = 0; i < 10 && lost > 0; ++i) {
@@ -106,5 +104,15 @@ public class FileController {
 
 
         return new ModelAndView("file_upload_form", map);
+    }
+
+    private static String getPostfix(File file) {
+        int index = file.getName().lastIndexOf('.');
+        return file.getName().substring(index + 1);
+    }
+
+    private static String getName(File file) {
+        int index = file.getName().lastIndexOf('.');
+        return file.getName().substring(0, index);
     }
 }
