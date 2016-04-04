@@ -10,6 +10,7 @@ public class VideoConverterTest {
     public void test() throws Exception {
 
         Xuggler.transcode("123.mpg","123.mp4");
-        System"""".out.println("test";)
+        System123.out.println("test";)
+
     }
 }
